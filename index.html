@@ -71,6 +71,10 @@
     position: absolute;
   }
 
+  [id^="carrot"] {
+    cursor: pointer;
+  }
+
   </style>
   
 </head>
@@ -82,22 +86,22 @@
       <span class="counter"></span>  
     </div>
     <div class="green__container">
-      <!-- <span><img src="./img/carrot.png" alt="carrot" id="carrot1"></span>
-      <span><img src="./img/carrot.png" alt="carrot" id="carrot2"></span>
-      <span><img src="./img/carrot.png" alt="carrot" id="carrot3"></span>
-      <span><img src="./img/carrot.png" alt="carrot" id="carrot4"></span>
-      <span><img src="./img/carrot.png" alt="carrot" id="carrot5"></span>
-      <span><img src="./img/carrot.png" alt="carrot" id="carrot6"></span>
-      <span><img src="./img/carrot.png" alt="carrot" id="carrot7"></span>
-      <span><img src="./img/carrot.png" alt="carrot" id="carrot8"></span>
-      <span><img src="./img/carrot.png" alt="carrot" id="carrot9"></span>
-      <span><img src="./img/bug.png" alt="bug" id="bug1"></span>
-      <span><img src="./img/bug.png" alt="bug" id="bug2"></span>
-      <span><img src="./img/bug.png" alt="bug" id="bug3"></span>
-      <span><img src="./img/bug.png" alt="bug" id="bug4"></span>
-      <span><img src="./img/bug.png" alt="bug" id="bug5"></span>
-      <span><img src="./img/bug.png" alt="bug" id="bug6"></span>
-      <span><img src="./img/bug.png" alt="bug" id="bug7"></span> -->
+      <!-- <span><img src="./img/carrot.png" alt="carrot" data-id="carrot"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot"></span>
+      <span><img src="./img/bug.png" alt="bug" id="bug"></span>
+      <span><img src="./img/bug.png" alt="bug" id="bug"></span>
+      <span><img src="./img/bug.png" alt="bug" id="bug"></span>
+      <span><img src="./img/bug.png" alt="bug" id="bug"></span>
+      <span><img src="./img/bug.png" alt="bug" id="bug"></span>
+      <span><img src="./img/bug.png" alt="bug" id="bug"></span>
+      <span><img src="./img/bug.png" alt="bug" id="bug"></span> -->
     </div>
   </div>
 
@@ -106,13 +110,16 @@
 
     const btnStartStop = document.querySelector('.btnStartStop');
     const timer = document.querySelector('.timer');
+    const counter = document.querySelector('.counter');
+    const btnContainer = document.querySelector('.btn__container');
     const greenContainer = document.querySelector('.green__container');
 
     let iconStart = document.querySelector('.fa-play');
     let iconStop;
     let setTimer;
     let timeCounter = 10;
-    // let carrot, bug;
+    let carrotCounter = 9;
+    let gameDoneFlag = false;
 
     btnStartStop.addEventListener('click', (event) => {
       if (event.target.className === "fas fa-play") {
@@ -122,32 +129,56 @@
       }
     });
 
-    function displayCarrotsBugs() {
-      // create 9 carrots
-      for (let i = 0; i < 9; i++) {
-        let carrot = document.createElement('span');
-        carrot.innerHTML = `
-        <img src="./img/carrot.png" alt="carrot" id="carrot${i + 1}">
-        `;
-        console.log(Math.random() * 100);
-
-        carrot.style.transform = `translateX(${Math.random() * 300}px)`;
-        carrot.style.transform = `translateY(${Math.random() * 100}px)`;
-        greenContainer.append(carrot);
+    greenContainer.addEventListener('click', (event) => {
+      if (gameDoneFlag !== true) {
+        if (event.target.dataset.id === 'carrot') {
+        console.log(event.target.dataset.id);
+        event.target.remove();
+        carrotCounter--;
+        counter.innerText = carrotCounter;
+        if (carrotCounter <= 0) {
+          alert('You won!');
+          gameDoneFlag = true;
+          stopGame();
+        }
+      } else if (event.target.dataset.id === 'bug') {
+        alert('You failed!');
+        gameDoneFlag = true;
+        stopGame();
+        }
+      } else {
+        alert('Restart the game!');
       }
+    });
 
-      // create 7 bugs
-      for (let i = 0; i < 7; i++) {
-        let bug = document.createElement('span');
-        bug.innerHTML = `
-        <img src="./img/bug.png" alt="bug" id="bug${i + 1}">
-        `;
-        bug.style.transform = `translate(${Math.random() * 150}px, ${Math.random() * Math.random() * 75}px)`;
-        greenContainer.append(bug);
+    function displayCarrotsBugs() {
+      if (greenContainer.childElementCount === 0) {
+        // create 9 carrots
+        for (let i = 0; i < 9; i++) {
+          let carrot = document.createElement('span');
+          carrot.innerHTML = `
+          <img src="./img/carrot.png" alt="carrot" data-id="carrot">
+          `;
+          carrot.style.transform = `translate(${Math.random() * 150}px, ${Math.random() * 150}px)`;
+          greenContainer.append(carrot);
+        }
+
+        // create 7 bugs
+        for (let i = 0; i < 7; i++) {
+          let bug = document.createElement('span');
+          bug.innerHTML = `
+          <img src="./img/bug.png" alt="bug" data-id="bug">
+          `;
+          bug.style.transform = `translate(${Math.random() * 150}px, ${Math.random() * Math.random() * 75}px)`;
+          greenContainer.append(bug);
+        }
       }
     }
 
     function startGame() {
+      // remove Carrots and bugs
+      greenContainer.innerHTML = '';
+
       // display carrots randomly
       displayCarrotsBugs();
 
@@ -157,6 +188,7 @@
         timeCounter--;
         if (timeCounter < -1) {
           alert('Time Over!');
+          gameDoneFlag = true;
           timer.innerText = 0;
           timeCounter = 10;
           stopGame();
@@ -165,7 +197,7 @@
       }, 1000); 
         
       // change icon to stop
-      iconStart.remove();
+      document.querySelector('fa-play').remove();
       iconStop = document.createElement('i');
       iconStop.setAttribute('class', 'fas fa-stop');
       btnStartStop.append(iconStop);
