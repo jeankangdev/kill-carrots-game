@@ -5,3 +5,10 @@
    git add . > discard all changes
 5. git commit --allow-empty -m "initial commit"
 6. git push origin master --force
+
+<issue>
+
+1. Cannot GET /favicon.ico error
+<link rel="shortcut icon" href="#">
+
+2.
