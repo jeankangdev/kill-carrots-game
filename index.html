@@ -16,7 +16,8 @@
 
   .container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-around;
     width: 600px;
     height: 350px;
     background: black url('./img/background.png') no-repeat center center;
@@ -24,7 +25,7 @@
     border-radius: 5%;
   }
 
-  .game__container {
+  .btns__container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -60,15 +61,43 @@
     background: white;
     border: 2px solid black;
   }
+
+  .green__container {
+    width: 600px;
+    height: 150px;
+  }
+
+  .green__container span {
+    position: absolute;
+  }
+
   </style>
   
 </head>
 <body>
   <div class="container">
-    <div class="game__container">
+    <div class="btns__container">
       <button class="btnStartStop"><i class="fas fa-play"></i></button>
       <span class="timer"></span>
       <span class="counter"></span>  
+    </div>
+    <div class="green__container">
+      <!-- <span><img src="./img/carrot.png" alt="carrot" id="carrot1"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot2"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot3"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot4"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot5"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot6"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot7"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot8"></span>
+      <span><img src="./img/carrot.png" alt="carrot" id="carrot9"></span>
+      <span><img src="./img/bug.png" alt="bug" id="bug1"></span>
+      <span><img src="./img/bug.png" alt="bug" id="bug2"></span>
+      <span><img src="./img/bug.png" alt="bug" id="bug3"></span>
+      <span><img src="./img/bug.png" alt="bug" id="bug4"></span>
+      <span><img src="./img/bug.png" alt="bug" id="bug5"></span>
+      <span><img src="./img/bug.png" alt="bug" id="bug6"></span>
+      <span><img src="./img/bug.png" alt="bug" id="bug7"></span> -->
     </div>
   </div>
 
@@ -77,11 +106,13 @@
 
     const btnStartStop = document.querySelector('.btnStartStop');
     const timer = document.querySelector('.timer');
+    const greenContainer = document.querySelector('.green__container');
 
     let iconStart = document.querySelector('.fa-play');
     let iconStop;
     let setTimer;
     let timeCounter = 10;
+    // let carrot, bug;
 
     btnStartStop.addEventListener('click', (event) => {
       if (event.target.className === "fas fa-play") {
@@ -91,7 +122,35 @@
       }
     });
 
+    function displayCarrotsBugs() {
+      // create 9 carrots
+      for (let i = 0; i < 9; i++) {
+        let carrot = document.createElement('span');
+        carrot.innerHTML = `
+        <img src="./img/carrot.png" alt="carrot" id="carrot${i + 1}">
+        `;
+        console.log(Math.random() * 100);
+
+        carrot.style.transform = `translateX(${Math.random() * 300}px)`;
+        carrot.style.transform = `translateY(${Math.random() * 100}px)`;
+        greenContainer.append(carrot);
+      }
+
+      // create 7 bugs
+      for (let i = 0; i < 7; i++) {
+        let bug = document.createElement('span');
+        bug.innerHTML = `
+        <img src="./img/bug.png" alt="bug" id="bug${i + 1}">
+        `;
+        bug.style.transform = `translate(${Math.random() * 150}px, ${Math.random() * Math.random() * 75}px)`;
+        greenContainer.append(bug);
+      }
+    }
+
     function startGame() {
+      // display carrots randomly
+      displayCarrotsBugs();
+
       // start timer
       setTimer = setInterval(() => {
         timer.innerText = timeCounter;
