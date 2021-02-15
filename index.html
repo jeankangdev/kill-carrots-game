@@ -5,10 +5,101 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+  <style>
+  body {
+    background: black;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    width: 600px;
+    height: 350px;
+    background: black url('./img/background.png') no-repeat center center;
+    background-size: cover;
+    border-radius: 5%;
+  }
+
+  .icons__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .timer {
+    width: 75px;
+    height: 20px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    background: white;
+    border: 2px solid black;
+  }
+
+  .counter {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    background: white;
+    border: 2px solid black;
+  }
+
+  button.start {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    border: 2px solid black;
+    outline: none;
+    cursor: pointer;
+    background: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  </style>
 </head>
 <body>
-  
-  <script src="main.js" defer></script>
+  <div class="container">
+    <div class="icons__container">
+      <button class="start"><i class="fas fa-play"></i></button>
+      <span class="timer"></span>
+      <span class="counter"></span>  
+    </div>
+  </div>
+
+  <script>
+    const btnStartStop = document.querySelector('.start');
+    btnStartStop.addEventListener('click', (event) => {
+      if (event.target.className === 'fas fa-play') {
+        const gameTimer = setInterval(timer, 1000);
+        event.target.remove();
+        const iconStop = document.createElement('i');
+        iconStop.setAttribute('class', 'fas fa-stop');
+        btnStartStop.append(iconStop);
+      } else if (event.target.className === 'fas fa-stop') {
+        event.target.remove();
+        const iconStart = document.createElement('i');
+        iconStart.setAttribute('class', 'fas fa-play');
+        btnStartStop.append(iconStart);
+      }
+    });
+
+    let timeStart = 10;
+
+    function timer() {
+      if (timeStart < 0) {
+        alert('Time over!');
+        return;
+      } else {
+        document.querySelector('.timer').textContent = timeStart;
+        timeStart--;
+      }
+    }
+    
+  </script>
 </body>
 </html>
