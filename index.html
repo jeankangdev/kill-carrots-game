@@ -132,7 +132,16 @@
     greenContainer.addEventListener('click', (event) => {
       if (gameDoneFlag !== true) {
         if (event.target.dataset.id === 'carrot') {
-        console.log(event.target.dataset.id);
+          removeCarrots(event);
+        } else if (event.target.dataset.id === 'bug') {
+          die();
+        }   
+      } else {
+        alert('Restart the game!');
+      }
+    });
+
+    function removeCarrots(event) {
         event.target.remove();
         carrotCounter--;
         counter.innerText = carrotCounter;
@@ -141,19 +150,19 @@
           gameDoneFlag = true;
           stopGame();
         }
-      } else if (event.target.dataset.id === 'bug') {
-        alert('You failed!');
-        gameDoneFlag = true;
-        stopGame();
-        }
-      } else {
-        alert('Restart the game!');
-      }
-    });
+    };
+
+    function die() {
+      alert('You failed!');
+      // clearInterval(setTimer);
+      // timeCounter = 10;
+      // carrotCounter = 9;
+      // gameDoneFlag = true;
+      stopGame();
+    };
 
     function displayCarrotsBugs() {
       if (greenContainer.childElementCount === 0) {
-        // create 9 carrots
         for (let i = 0; i < 9; i++) {
           let carrot = document.createElement('span');
           carrot.innerHTML = `
@@ -163,7 +172,6 @@
           greenContainer.append(carrot);
         }
 
-        // create 7 bugs
         for (let i = 0; i < 7; i++) {
           let bug = document.createElement('span');
           bug.innerHTML = `
@@ -173,14 +181,21 @@
           greenContainer.append(bug);
         }
       }
-    }
+    };
 
     function startGame() {
+      let gameDoneFlag = false;
+
       // remove Carrots and bugs
       greenContainer.innerHTML = '';
 
       // display carrots randomly
       displayCarrotsBugs();
+
+      if (gameDoneFlag === true) {
+        timeCounter = 10;
+        carrotCounter = 9;
+      }
 
       // start timer
       setTimer = setInterval(() => {
@@ -197,7 +212,7 @@
       }, 1000); 
         
       // change icon to stop
-      document.querySelector('fa-play').remove();
+      document.querySelector('.fa-play').remove();
       iconStop = document.createElement('i');
       iconStop.setAttribute('class', 'fas fa-stop');
       btnStartStop.append(iconStop);

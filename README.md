@@ -17,3 +17,7 @@
 
 2. let iconStart = document.querySelector('.fas fa-play'); // null  
    => let iconStart = document.querySelector('.fa-play'); // work
+
+3. why does it work only at times?????
+
+4. function die() has an issue...
