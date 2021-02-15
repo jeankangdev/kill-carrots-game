@@ -119,26 +119,36 @@
     let setTimer;
     let timeCounter = 10;
     let carrotCounter = 9;
-    let gameDoneFlag = false;
+    let gameStarted = false;
+    let hasWonOrLost = false;
 
     btnStartStop.addEventListener('click', (event) => {
       if (event.target.className === "fas fa-play") {
-        startGame();
+        if (gameStarted === true && hasWonOrLost === false) {
+          restartGame();
+        } else {
+          startGame();
+        }
       } else if (event.target.className === "fas fa-stop") {
-        stopGame();
+        if (gameStarted == true && hasWonOrLost === false) {
+          pauseGame();          
+        } else {
+          stopGame();
+        }
       }
     });
 
     greenContainer.addEventListener('click', (event) => {
-      if (gameDoneFlag !== true) {
+      if (hasWonOrLost === true) {
+        alert('Start the game!');
+      } else if (gameStarted === true && hasWonOrLost === false) {
         if (event.target.dataset.id === 'carrot') {
           removeCarrots(event);
         } else if (event.target.dataset.id === 'bug') {
-          die();
+          alert('You failed!');
+          stopGame();
         }   
-      } else {
-        alert('Restart the game!');
-      }
+      } 
     });
 
     function removeCarrots(event) {
@@ -147,18 +157,8 @@
         counter.innerText = carrotCounter;
         if (carrotCounter <= 0) {
           alert('You won!');
-          gameDoneFlag = true;
           stopGame();
         }
-    };
-
-    function die() {
-      alert('You failed!');
-      // clearInterval(setTimer);
-      // timeCounter = 10;
-      // carrotCounter = 9;
-      // gameDoneFlag = true;
-      stopGame();
     };
 
     function displayCarrotsBugs() {
@@ -183,8 +183,32 @@
       }
     };
 
+    function restartGame() {
+      gameStarted = true;
+
+      // restart timer
+      setTimer = setInterval(() => {
+      timer.innerText = timeCounter;
+      timeCounter--;
+        if (timeCounter < -1) {
+          alert('Time Over!');
+          timer.innerText = 0;
+          timeCounter = 10;
+          // hasWonOrLost = true;
+          stopGame();
+          // return;
+        }
+      }, 1000); 
+      
+      // change icon to stop
+      document.querySelector('.fa-play').remove();
+      iconStop = document.createElement('i');
+      iconStop.setAttribute('class', 'fas fa-stop');
+      btnStartStop.append(iconStop);
+    }
+
     function startGame() {
-      let gameDoneFlag = false;
+      gameStarted = true;
 
       // remove Carrots and bugs
       greenContainer.innerHTML = '';
@@ -192,10 +216,8 @@
       // display carrots randomly
       displayCarrotsBugs();
 
-      if (gameDoneFlag === true) {
-        timeCounter = 10;
-        carrotCounter = 9;
-      }
+      timeCounter = 10;
+      carrotCounter = 9;
 
       // start timer
       setTimer = setInterval(() => {
@@ -203,11 +225,11 @@
         timeCounter--;
         if (timeCounter < -1) {
           alert('Time Over!');
-          gameDoneFlag = true;
+          hasWonOrLost = true;
           timer.innerText = 0;
-          timeCounter = 10;
+          // timeCounter = 10;
           stopGame();
-          return;
+          // return;
         }
       }, 1000); 
         
@@ -218,7 +240,25 @@
       btnStartStop.append(iconStop);
     };
 
+    function pauseGame() {
+      // stop timer
+      clearInterval(setTimer);
+      
+      // change icon to start
+      iconStop.remove();
+      iconStart = document.createElement('i');
+      iconStart.setAttribute('class', 'fas fa-play');
+      btnStartStop.append(iconStart);      
+    };
+
     function stopGame() {
+      gameStarted = false;
+      hasWonOrLost = true;
+
+      gameIngFlag = false;      
+      timeCounter = 10;
+      carrotCounter = 9;
+
       // stop timer
       clearInterval(setTimer);
 
