@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="#">
+  <!-- <link rel="shortcut icon" href="#"> -->
   <title>Document</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
   <style>
@@ -77,20 +77,20 @@
     const btnStartStop = document.querySelector('.btnStartStop');
     const timer = document.querySelector('.timer');
 
-    let iconStart;
+    let iconStart = document.querySelector('.fa-play');
     let iconStop;
     let setTimer;
     let timeCounter = 10;
 
     btnStartStop.addEventListener('click', (event) => {
       if (event.target.className === "fas fa-play") {
-        startGame(event);
+        startGame();
       } else if (event.target.className === "fas fa-stop") {
-        stopGame(event);
+        stopGame();
       }
     });
 
-    function startGame(event) {
+    function startGame() {
       // start timer
       setTimer = setInterval(() => {
         timer.innerText = timeCounter;
@@ -105,7 +105,7 @@
       }, 1000); 
         
       // change icon to stop
-      event.target.remove();
+      iconStart.remove();
       iconStop = document.createElement('i');
       iconStop.setAttribute('class', 'fas fa-stop');
       btnStartStop.append(iconStop);

@@ -8,7 +8,9 @@
 
 <issue>
 
-1. Cannot GET /favicon.ico error
-<link rel="shortcut icon" href="#">
+1. clear web cash  
+   => Ctrl + F5
 
-2.
+1. Cannot GET /favicon.ico error
+   => <link rel="shortcut icon" href="#">  
+   => suddenly the event handler on the icons in HTML doesn't work
