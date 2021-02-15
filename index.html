@@ -76,9 +76,11 @@
     const btnStartStop = document.querySelector('.btnStartStop');
     const timer = document.querySelector('.timer');
 
-    let timeCounter = 10;
+    // let iconStart = document.querySelector(".fas fa-play");
+    let iconStart;
+    let iconStop;
     let setTimer;
-    let iconStart, iconStop;
+    let timeCounter = 10;
 
     btnStartStop.addEventListener('click', (event) => {
       if (event.target.className === "fas fa-play") {
@@ -97,7 +99,6 @@
           alert('Time Over!');
           timer.innerText = 0;
           timeCounter = 10;
-          // iconStop.remove();
           stopGame();
           return;
         }
@@ -116,12 +117,6 @@
 
       // change icon to start
       iconStop.remove();
-
-      // all doesn't work
-      // event.target.classList.remove('fas fa-stop');
-      // btnStartStop.removeChild(event.target);
-      // iconStop.remove();  // iconStop is null
-
       iconStart = document.createElement('i');
       iconStart.setAttribute('class', 'fas fa-play');
       btnStartStop.append(iconStart);
