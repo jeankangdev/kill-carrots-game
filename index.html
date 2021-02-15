@@ -23,11 +23,23 @@
     border-radius: 5%;
   }
 
-  .icons__container {
+  .game__container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+  }
+
+  .btnStartStop {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    border: 2px solid black;
+    outline: none;
+    cursor: pointer;
+    background: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 
   .timer {
@@ -47,59 +59,74 @@
     background: white;
     border: 2px solid black;
   }
-
-  button.start {
-    width: 30px;
-    height: 30px;
-    border-radius: 5px;
-    border: 2px solid black;
-    outline: none;
-    cursor: pointer;
-    background: white;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="icons__container">
-      <button class="start"><i class="fas fa-play"></i></button>
+    <div class="game__container">
+      <button class="btnStartStop"><i class="fas fa-play"></i></button>
       <span class="timer"></span>
       <span class="counter"></span>  
     </div>
   </div>
 
   <script>
-    const btnStartStop = document.querySelector('.start');
+    'use strict';
+
+    const btnStartStop = document.querySelector('.btnStartStop');
+    const timer = document.querySelector('.timer');
+
+    let timeCounter = 10;
+    let setTimer;
+    let iconStart, iconStop;
+
     btnStartStop.addEventListener('click', (event) => {
-      if (event.target.className === 'fas fa-play') {
-        const gameTimer = setInterval(timer, 1000);
-        event.target.remove();
-        const iconStop = document.createElement('i');
-        iconStop.setAttribute('class', 'fas fa-stop');
-        btnStartStop.append(iconStop);
-      } else if (event.target.className === 'fas fa-stop') {
-        event.target.remove();
-        const iconStart = document.createElement('i');
-        iconStart.setAttribute('class', 'fas fa-play');
-        btnStartStop.append(iconStart);
+      if (event.target.className === "fas fa-play") {
+        startGame(event);
+      } else if (event.target.className === "fas fa-stop") {
+        stopGame(event);
       }
     });
 
-    let timeStart = 10;
+    function startGame(event) {
+      // start timer
+      setTimer = setInterval(() => {
+        timer.innerText = timeCounter;
+        timeCounter--;
+        if (timeCounter < -1) {
+          alert('Time Over!');
+          timer.innerText = 0;
+          timeCounter = 10;
+          // iconStop.remove();
+          stopGame();
+          return;
+        }
+      }, 1000); 
+        
+      // change icon to stop
+      event.target.remove();
+      iconStop = document.createElement('i');
+      iconStop.setAttribute('class', 'fas fa-stop');
+      btnStartStop.append(iconStop);
+    };
 
-    function timer() {
-      if (timeStart < 0) {
-        alert('Time over!');
-        return;
-      } else {
-        document.querySelector('.timer').textContent = timeStart;
-        timeStart--;
-      }
+    function stopGame() {
+      // stop timer
+      clearInterval(setTimer);
+
+      // change icon to start
+      iconStop.remove();
+
+      // all doesn't work
+      // event.target.classList.remove('fas fa-stop');
+      // btnStartStop.removeChild(event.target);
+      // iconStop.remove();  // iconStop is null
+
+      iconStart = document.createElement('i');
+      iconStart.setAttribute('class', 'fas fa-play');
+      btnStartStop.append(iconStart);
     }
-    
+
   </script>
 </body>
 </html>
