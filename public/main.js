@@ -10,6 +10,7 @@ const fieldRect = field.getBoundingClientRect();
 const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.game__timer');
 const gameScore = document.querySelector('.game__score');
+const popup = document.querySelector('.pop-up');
 
 let started = false;
 let timer = undefined;
@@ -29,13 +30,14 @@ function startGame() {
   showStopButton();
   showTimerAndScore();
   startGameTimer();
+  startGameScore();
 }
 
 function stopGame() {
   // can't click carrots or bugs anymore
   showPlayButton();
-  hideTimerAndScore();
   stopTimerAndScore();
+  showPopup();
 }
 
 function startGameTimer() {
@@ -50,14 +52,23 @@ function startGameTimer() {
   }, 1000);
 }
 
+function startGameScore() {
+
+}
+
 function updateTimerText(sec) {
   const minutes = Math.floor(sec / 60);
   const seconds = sec % 60;
   gameTimer.innerText = `${minutes}:${seconds}`;
 }
 
-function stopGameTimer() {
-  
+function showTimerAndScore() {
+  gameTimer.style.visibility = 'visible';
+  gameScore.style.visibility = 'visible';
+}
+
+function stopTimerAndScore() {
+  clearInterval(timer);
 }
 
 function showPlayButton() {
@@ -70,19 +81,6 @@ function showStopButton() {
   const icon = gameBtn.querySelector('.fa-play');
   icon.classList.remove('fa-play');
   icon.classList.add('fa-stop');
-}
-
-function showTimerAndScore() {
-  gameTimer.style.visibility = 'visible';
-  gameTimer.style.visibility = 'visible';
-}
-
-function hideTimerAndScore() {
-  // stop timer and score
-
-  // hide timer and score
-  gameTimer.style.visibility = 'hidden';
-  gameTimer.style.visibility = 'hidden';
 }
 
 function initGame() {
@@ -114,4 +112,8 @@ function addItem(className, count, imgPath) {
 
 function randomNumber(min, max) {
   return Math.random() * (max - min) + min;
+}
+
+function showPopup() {
+  popup.classList.remove('pop-up--hide');
 }
