@@ -42,7 +42,7 @@ function startGameTimer() {
   let remainingTimeSec = GAME_DURATION_SEC;
   updateTimerText(remainingTimeSec);
   timer = setInterval(() => {
-    if (time_seconds == 0) {
+    if (remainingTimeSec == 0) {
       clearInterval(timer);
       return;
     }
