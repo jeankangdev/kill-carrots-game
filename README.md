@@ -48,14 +48,3 @@ item.style.top = `${y}px`;
 
 6. setInterval for a specific time  
    let timer;
-
-function startGameTimer() {  
- let remainingTimeSec = 5;  
- timer = setInterval(() => {  
- if (remainingTimeSec <= 0) {  
- clearInterval(timer);  
- return;  
- }
-updateTimerText(--remainingTimeSec);
-}, 1000);  
-};
