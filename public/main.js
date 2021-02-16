@@ -3,7 +3,7 @@
 const CARROT_SIZE = 80;
 const CARROT_COUNT = 5;
 const BUG_COUNT = 5;
-let time_seconds = 10;
+const GAME_DURATION_SEC = 5;
 
 const field = document.querySelector('.game__field');
 const fieldRect = field.getBoundingClientRect();
@@ -39,14 +39,19 @@ function stopGame() {
 }
 
 function startGameTimer() {
-  gameTimer.innerText = time_seconds;
-  let timer = setInterval(() => {
-    gameTimer.innerText = --time_seconds;
+  let remainingTimeSec = GAME_DURATION_SEC;
+  updateTimerText(remainingTimeSec);
+  timer = setInterval(() => {
     if (time_seconds == 0) {
       clearInterval(timer);
       return;
     }
+    updateTimerText(--remainingTimeSec);
   }, 1000);
+}
+
+function updateTimerText(seconds) {
+  gameTimer.innerText = seconds;
 }
 
 function stopGameTimer() {
