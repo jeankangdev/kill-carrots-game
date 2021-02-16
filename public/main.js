@@ -27,6 +27,7 @@ gameBtn.addEventListener('click', () => {
 
 function startGame() {
   initGame();
+  hidePopup();
   showStopButton();
   showTimerAndScore();
   startGameTimer();
@@ -35,7 +36,8 @@ function startGame() {
 
 function stopGame() {
   // can't click carrots or bugs anymore
-  showPlayButton();
+  changeToPlayButton();
+  hidePlayButton();
   stopTimerAndScore();
   showPopup();
 }
@@ -71,10 +73,14 @@ function stopTimerAndScore() {
   clearInterval(timer);
 }
 
-function showPlayButton() {
+function changeToPlayButton() {
   const icon = gameBtn.querySelector('.fa-stop');
   icon.classList.remove('fa-stop');
   icon.classList.add('fa-play');
+}
+
+function hidePlayButton() {
+  gameBtn.style.visibility = 'hidden';
 }
 
 function showStopButton() {
@@ -116,4 +122,8 @@ function randomNumber(min, max) {
 
 function showPopup() {
   popup.classList.remove('pop-up--hide');
+}
+
+function hidePopup() {
+  popup.classList.add('pop-up--hide');
 }
