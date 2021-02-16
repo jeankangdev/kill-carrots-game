@@ -50,8 +50,10 @@ function startGameTimer() {
   }, 1000);
 }
 
-function updateTimerText(seconds) {
-  gameTimer.innerText = seconds;
+function updateTimerText(sec) {
+  const minutes = Math.floor(sec / 60);
+  const seconds = sec % 60;
+  gameTimer.innerText = `${minutes}:${seconds}`;
 }
 
 function stopGameTimer() {
