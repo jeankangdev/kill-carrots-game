@@ -21,3 +21,41 @@
 3. why does it work only at times?????
 
 4. function die() has an issue...
+
+<what I have learned from this project>
+1. background: url(img/background.png) center/cover;
+
+2. transition: all 300ms ease-in;
+
+3. pop-up position: transform: translateY(-150%);
+
+4. background-color: #00000090; => black with 90% opacity
+   make only the background-color has the opacity (not its children)
+
+5. make a random number between 2 numbers  
+   function randomNumber(min, max) {  
+    return Math.random() \* (max - min) + min;  
+   }
+
+const x1 = 0;  
+const y1 = 0;  
+const x2 = fieldRect.width - CARROT_SIZE;  
+const y2 = fieldRect.height - CARROT_SIZE;  
+const x = randomNumber(x1, x2);  
+const y = randomNumber(y1, y2);  
+item.style.left = `${x}px`;  
+item.style.top = `${y}px`;
+
+6. setInterval for a specific time  
+   let timer;
+
+function startGameTimer() {  
+ let remainingTimeSec = 5;  
+ timer = setInterval(() => {  
+ if (remainingTimeSec <= 0) {  
+ clearInterval(timer);  
+ return;  
+ }
+updateTimerText(--remainingTimeSec);
+}, 1000);  
+};
