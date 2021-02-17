@@ -48,3 +48,6 @@ item.style.top = `${y}px`;
 
 6. setInterval for a specific time  
    let timer;
+
+7. event.target.className('carrot');  
+   => event.target.matches('.carrot');

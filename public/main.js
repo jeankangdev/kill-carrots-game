@@ -9,7 +9,7 @@ const field = document.querySelector('.game__field');
 const fieldRect = field.getBoundingClientRect();
 const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.game__timer');
-const gameScore = document.querySelector('.game__score');
+const remainingCarrotCounter = document.querySelector('.game__score');
 
 const popUp = document.querySelector('.pop-up');
 const popUpRefreshBtn = document.querySelector('.pop-up__refresh');
@@ -31,19 +31,18 @@ gameBtn.addEventListener('click', () => {
 field.addEventListener('click', (event) => {
   if(!started) {
     return;
-  } else {
-    if (event.target.className === 'carrot') {
-      removeCarrot(event.target);
-      updateGameScore();
-      if (remainingCarrotCount <= 0) {
-        stopGame("You won!");
-        started = !started;
-      }
-    } else {
-      stopGame("You failed!");
-      started = !started; 
-    }  
   }
+  if (event.target.matches('.carrot')) {
+    removeCarrot(event.target);
+    updateRemainingCarrotCount();
+    if (remainingCarrotCount <= 0) {
+      stopGame("You won!");
+      started = !started;
+    }
+  } else if (event.target.matches('.bug')) {
+    stopGame("You failed!");
+    started = !started; 
+  }  
 });
 
 popUpRefreshBtn.addEventListener('click', () => {
@@ -71,7 +70,7 @@ function initGame() {
   addItem('bug', BUG_COUNT, 'img/bug.png');
 
   remainingCarrotCount = CARROT_COUNT;
-  gameScore.innerText = remainingCarrotCount;  
+  remainingCarrotCounter.innerText = remainingCarrotCount;  
 }
 
 function addItem(className, count, imgPath) {
@@ -119,7 +118,7 @@ function hideGameButton() {
 
 function showTimerAndScore() {
   gameTimer.style.visibility = 'visible';
-  gameScore.style.visibility = 'visible';
+  remainingCarrotCounter.style.visibility = 'visible';
 }
 
 function startGameTimer() {
@@ -146,8 +145,8 @@ function updateTimerText(sec) {
   gameTimer.innerText = `${minutes}:${seconds}`;
 }
 
-function updateGameScore() {
-  gameScore.innerText = --remainingCarrotCount;
+function updateRemainingCarrotCount() {
+  remainingCarrotCounter.innerText = --remainingCarrotCount;
 }
 
 function removeCarrot(carrot) {
