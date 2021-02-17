@@ -15,6 +15,12 @@ const popUp = document.querySelector('.pop-up');
 const popUpRefreshBtn = document.querySelector('.pop-up__refresh');
 const popUpMessage = document.querySelector('.pop-up__message');
 
+const backgroundSound = new Audio('./sound/bg.mp3');
+const carrotSound = new Audio('./sound/carrot_pull.mp3');
+const bugSound = new Audio('./sound/bug_pull.mp3');
+const alertSound = new Audio('./sound/alert.wav');
+const winSound = new Audio('./sound/game_win.mp3');
+
 let started = false;
 let timer = undefined;
 let remainingCarrotCount = CARROT_COUNT;
@@ -33,14 +39,17 @@ field.addEventListener('click', (event) => {
     return;
   }
   if (event.target.matches('.carrot')) {
+    playSound(carrotSound);
     removeCarrot(event.target);
     updateRemainingCarrotCount();
     if (remainingCarrotCount <= 0) {
       stopGame("You won!");
+      playSound(winSound);
       started = !started;
     }
   } else if (event.target.matches('.bug')) {
     stopGame("You failed!");
+    playSound(alertSound);
     started = !started; 
   }  
 });
@@ -51,6 +60,7 @@ popUpRefreshBtn.addEventListener('click', () => {
 });
 
 function startGame() {
+  playSound(backgroundSound);
   initGame();
   hidePopUp();
   showStopButton();
@@ -59,6 +69,7 @@ function startGame() {
 }
 
 function stopGame(message) {
+  stopSound(backgroundSound);
   hideGameButton();
   stopGameTimer();
   showPopUp(message);
@@ -96,7 +107,6 @@ function randomNumber(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-
 function showStopButton() {
   gameBtn.style.visibility = 'visible';
   const stop = gameBtn.querySelector('.fa-stop')
@@ -128,6 +138,7 @@ function startGameTimer() {
     if (remainingTimeSec == 0) {
       clearInterval(timer);
       stopGame("Game over!");
+      playSound(alertSound);
       started = !started;
       return;
     }
@@ -160,4 +171,13 @@ function showPopUp(message) {
 
 function hidePopUp() {
   popUp.classList.add('pop-up--hide');
+}
+
+function playSound(sound) {
+  sound.currentTime = 0;
+  sound.play();
+}
+
+function stopSound(sound) {
+  sound.pause();
 }
