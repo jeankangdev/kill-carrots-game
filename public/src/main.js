@@ -31,7 +31,7 @@ const gameFinishBanner = new PopUp();
 gameFinishBanner.setClickListener(() => {
   startGame();
   started = !started;
-})
+});
 
 // popUpRefreshBtn.addEventListener('click', () => {
 //   startGame();
@@ -70,7 +70,8 @@ field.addEventListener('click', (event) => {
 function startGame() {
   playSound(backgroundSound);
   initGame();
-  hidePopUp();
+  // hidePopUp();
+  gameFinishBanner.hide();
   showStopButton();
   showTimerAndScore();
   startGameTimer();
@@ -80,7 +81,8 @@ function stopGame(message) {
   stopSound(backgroundSound);
   hideGameButton();
   stopGameTimer();
-  showPopUp(message);
+  // showPopUpWithMessage(message);
+  gameFinishBanner.showWithMessage(message);
 }
 
 function initGame() {
@@ -172,7 +174,7 @@ function removeCarrot(carrot) {
   carrot.remove();
 }
 
-// function showPopUp(message) {
+// function showPopUpWithMessage(message) {
 //   popUpMessage.innerText = message;
 //   popUp.classList.remove('pop-up--hide');
 // }

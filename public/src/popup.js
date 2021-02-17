@@ -15,7 +15,7 @@ export default class PopUp {
     this.onClick = onClick; // PopUP.onClick = onClick callback function
   }
 
-  show(message) {
+  showWithMessage(message) {
     this.popUpMessage.innerText = message;
     this.popUp.classList.remove('pop-up--hide');
   }
