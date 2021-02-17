@@ -1,21 +1,23 @@
 'use strict';
 
 import PopUp from './popup.js';
+import GameField from './gameField.js';
 
 const IMAGE_SIZE = 80;
 const CARROT_COUNT = 10;
 const BUG_COUNT = 7;
 const GAME_DURATION_SEC = 10;
 
-const field = document.querySelector('.game__field');
-const fieldRect = field.getBoundingClientRect();
-const gameBtn = document.querySelector('.game__button');
-const gameTimer = document.querySelector('.game__timer');
-const remainingCarrotCounter = document.querySelector('.game__score');
-
 // const popUp = document.querySelector('.pop-up');
 // const popUpRefreshBtn = document.querySelector('.pop-up__refresh');
 // const popUpMessage = document.querySelector('.pop-up__message');
+
+// const field = document.querySelector('.game__field');
+// const fieldRect = field.getBoundingClientRect();
+
+const gameBtn = document.querySelector('.game__button');
+const gameTimer = document.querySelector('.game__timer');
+const remainingCarrotCounter = document.querySelector('.game__score');
 
 const backgroundSound = new Audio('./sound/bg.mp3');
 const carrotSound = new Audio('./sound/carrot_pull.mp3');
@@ -38,16 +40,17 @@ gameFinishBanner.setClickListener(() => {
 //   started = !started;
 // });
 
-gameBtn.addEventListener('click', () => {
-  if(started) {
-    stopGame("Replay?");
-  } else {
-    startGame();
-  }
-  started = !started;
-});
+// function showPopUpWithMessage(message) {
+//   popUpMessage.innerText = message;
+//   popUp.classList.remove('pop-up--hide');
+// }
 
-field.addEventListener('click', (event) => {
+// function hidePopUp() {
+//   popUp.classList.add('pop-up--hide');
+// }
+
+const gameField = new GameField();
+gameField.setClickListener((event) => {
   if(!started) {
     return;
   }
@@ -61,16 +64,46 @@ field.addEventListener('click', (event) => {
       started = !started;
     }
   } else if (event.target.matches('.bug')) {
+    playSound(bugSound);
     stopGame("You failed!");
     playSound(alertSound);
     started = !started; 
   }  
 });
 
+// field.addEventListener('click', (event) => {
+//   if(!started) {
+//     return;
+//   }
+//   if (event.target.matches('.carrot')) {
+//     playSound(carrotSound);
+//     removeCarrot(event.target);
+//     updateRemainingCarrotCount();
+//     if (remainingCarrotCount <= 0) {
+//       stopGame("You won!");
+//       playSound(winSound);
+//       started = !started;
+//     }
+//   } else if (event.target.matches('.bug')) {
+//     playSound(bugSound);
+//     stopGame("You failed!");
+//     playSound(alertSound);
+//     started = !started; 
+//   }  
+// });
+
+gameBtn.addEventListener('click', () => {
+  if(started) {
+    stopGame("Replay?");
+  } else {
+    startGame();
+  }
+  started = !started;
+});
+
 function startGame() {
   playSound(backgroundSound);
   initGame();
-  // hidePopUp();
   gameFinishBanner.hide();
   showStopButton();
   showTimerAndScore();
@@ -86,7 +119,7 @@ function stopGame(message) {
 }
 
 function initGame() {
-  field.innerHTML = '';
+  gameField.field.innerHTML = '';
   addItem('carrot', CARROT_COUNT, 'img/carrot.png');
   addItem('bug', BUG_COUNT, 'img/bug.png');
 
@@ -97,8 +130,10 @@ function initGame() {
 function addItem(className, count, imgPath) {
   const x1 = 0;
   const y1 = 0;
-  const x2 = fieldRect.width - IMAGE_SIZE;
-  const y2 = fieldRect.height - IMAGE_SIZE;
+  const x2 = gameField.fieldRect.width - IMAGE_SIZE;
+  const y2 = gameField.fieldRect.height - IMAGE_SIZE;
+  // const x2 = fieldRect.width - IMAGE_SIZE;
+  // const y2 = fieldRect.height - IMAGE_SIZE;
 
   for (let i = 0; i < count; i++) {
     const item = document.createElement('img');
@@ -109,7 +144,7 @@ function addItem(className, count, imgPath) {
     const y = randomNumber(y1, y2);
     item.style.left = `${x}px`;
     item.style.top = `${y}px`;
-    field.appendChild(item);
+    gameField.field.appendChild(item);
   }
 }
 
@@ -173,15 +208,6 @@ function updateRemainingCarrotCount() {
 function removeCarrot(carrot) {
   carrot.remove();
 }
-
-// function showPopUpWithMessage(message) {
-//   popUpMessage.innerText = message;
-//   popUp.classList.remove('pop-up--hide');
-// }
-
-// function hidePopUp() {
-//   popUp.classList.add('pop-up--hide');
-// }
 
 function playSound(sound) {
   sound.currentTime = 0;
