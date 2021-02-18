@@ -9,7 +9,21 @@ export default class Field {
     this.field = document.querySelector('.game__field');
     this.fieldRect = this.field.getBoundingClientRect();
     
-    this.field.addEventListener('click', this.onClick);
+    // when functions (inside class) are used as callback, the function itself can't deliver information of the class.
+    // thus we need binding (bind the info of the class to the classes function)
+    
+    // option 1: doesn't work well
+    // this.field.addEventListener('click', this.onClick);
+    // this.onClick = this.onClick.bind(this);
+
+    // option 2: work
+    this.field.addEventListener('click', (event) => {
+      this.onClick(event);
+    });
+
+    // option 3: change the onClick function as shown below
+    // this.field.addEventListener('click', this.onClick);
+    // onClick = (event) => {}
   }
 
   init() {
@@ -41,9 +55,8 @@ export default class Field {
     this.onItemClick = onItemClick;
   }
 
-  onClick(event) {
+  onClick = (event) => {
     if (event.target.matches('.carrot')) {
-      removeCarrot(event.target);
       this.onItemClick && this.onItemClick('carrot');
       } else if (event.target.matches('.bug')) {
       this.onItemClick && this.onItemClick('bug');
@@ -51,11 +64,7 @@ export default class Field {
   }
 }
 
-// static functions
+// static function
 function randomNumber(min, max) {
   return Math.random() * (max - min) + min;
-}
-
-function removeCarrot(carrot) {
-  carrot.remove();
 }

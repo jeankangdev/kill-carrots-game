@@ -52,4 +52,5 @@ item.style.top = `${y}px`;
 7. event.target.className('carrot');  
    => event.target.matches('.carrot');
 
-8. field.onItemClick doesn't work!
+8. field.onItemClick doesn't work!  
+   => click event binding issue
