@@ -54,3 +54,6 @@ item.style.top = `${y}px`;
 
 8. field.onItemClick doesn't work!  
    => click event binding issue
+
+9. game.js doesn't work!  
+   => when running it, the console on developer tools doesn't show any error and I can't even find the js file on source tap.
