@@ -14,17 +14,17 @@ export default class Field {
     // when functions (inside class) are used as callback, the function itself can't deliver information of the class.
     // thus we need binding (bind the info of the class to the classes function)
     
+    this.field.addEventListener('click', this.onClick);
+
     // option 1: doesn't work well
-    // this.field.addEventListener('click', this.onClick);
     // this.onClick = this.onClick.bind(this);
 
     // option 2: work
-    this.field.addEventListener('click', (event) => {
-      this.onClick(event);
-    });
+    // this.field.addEventListener('click', (event) => {
+    //   this.onClick(event);
+    // });
 
     // option 3: change the onClick function as shown below
-    // this.field.addEventListener('click', this.onClick);
     // onClick = (event) => {}
   }
 
