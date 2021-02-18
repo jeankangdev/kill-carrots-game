@@ -1,5 +1,7 @@
 'use strict';
 
+import { started } from './main.js';
+
 export default class Field {
   constructor(carrotCount, bugCount) {
     this.carrotCount = carrotCount;
@@ -56,6 +58,9 @@ export default class Field {
   }
 
   onClick = (event) => {
+    if (!started) {
+      return;
+    }
     if (event.target.matches('.carrot')) {
       this.onItemClick && this.onItemClick('carrot');
       } else if (event.target.matches('.bug')) {

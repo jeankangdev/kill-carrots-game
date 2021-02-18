@@ -13,6 +13,7 @@ const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.game__timer');
 const remainingCarrotCounter = document.querySelector('.game__score');
 
+export { started };
 let started = false;
 let timer = undefined;
 let remainingCarrotCount;
@@ -26,9 +27,9 @@ gameFinishBanner.setClickListener(() => {
 const field = new Field(CARROT_COUNT, BUG_COUNT);
 field.setClickListener(onItemClick);
 function onItemClick(item) {
-  if(!started) {
-    return;
-  }
+  // if(!started) {
+  //   return;
+  // }
   if (item === 'carrot') {
     event.target.remove();
     sound.playCarrot();
