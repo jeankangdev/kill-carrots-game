@@ -2,6 +2,7 @@
 
 import PopUp from './popup.js';
 import Field from './field.js';
+import * as sound from './sound.js';
 
 const IMAGE_SIZE = 80;
 const CARROT_COUNT = 10;
@@ -12,11 +13,11 @@ const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.game__timer');
 const remainingCarrotCounter = document.querySelector('.game__score');
 
-const backgroundSound = new Audio('./sound/bg.mp3');
-const carrotSound = new Audio('./sound/carrot_pull.mp3');
-const bugSound = new Audio('./sound/bug_pull.mp3');
-const alertSound = new Audio('./sound/alert.wav');
-const winSound = new Audio('./sound/game_win.mp3');
+// const backgroundSound = new Audio('./sound/bg.mp3');
+// const carrotSound = new Audio('./sound/carrot_pull.mp3');
+// const bugSound = new Audio('./sound/bug_pull.mp3');
+// const alertSound = new Audio('./sound/alert.wav');
+// const winSound = new Audio('./sound/game_win.mp3');
 
 let started = false;
 let timer = undefined;
@@ -36,16 +37,16 @@ function onItemClick(item) {
     return;
   }
   if (item === 'carrot') {
-    playSound(carrotSound);
+    sound.playCarrot();
     updateRemainingCarrotCount();
     if (remainingCarrotCount <= 0) {
-      playSound(winSound);
+      sound.playWin();
       stopGame("You won!");
       started = !started;
     }
   } else if (item === 'bug') {
-    playSound(bugSound);
-    playSound(alertSound);
+    sound.playBug();
+    sound.playAlert();
     stopGame("You failed!");
     started = !started; 
   }  
@@ -61,7 +62,7 @@ gameBtn.addEventListener('click', () => {
 });
 
 function startGame() {
-  playSound(backgroundSound);
+  sound.playBackground();
   initGame();
   field.init();
   gameFinishBanner.hide();
@@ -117,7 +118,7 @@ function startGameTimer() {
     if (remainingTimeSec == 0) {
       clearInterval(timer);
       stopGame("Game over!");
-      playSound(alertSound);
+      sound.playAlert();
       started = !started;
       return;
     }
@@ -137,17 +138,4 @@ function updateTimerText(sec) {
 
 function updateRemainingCarrotCount() {
   remainingCarrotCounter.innerText = --remainingCarrotCount;
-}
-
-// function removeCarrot(carrot) {
-//   carrot.remove();
-// }
-
-function playSound(sound) {
-  sound.currentTime = 0;
-  sound.play();
-}
-
-function stopSound(sound) {
-  sound.pause();
 }
