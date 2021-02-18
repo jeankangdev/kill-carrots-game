@@ -15,7 +15,6 @@ export default class Field {
     // thus we need binding (bind the info of the class to the classes function)
     
     this.field.addEventListener('click', this.onClick);
-
     // option 1: doesn't work well
     // this.onClick = this.onClick.bind(this);
 

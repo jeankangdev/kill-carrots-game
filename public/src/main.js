@@ -2,13 +2,15 @@
 
 import PopUp from './popup.js';
 import Field from './field.js';
+// import Game from './game.js';
 import * as sound from './sound.js';
 
 const IMAGE_SIZE = 80;
+export { CARROT_COUNT };
 const CARROT_COUNT = 10;
 const BUG_COUNT = 7;
+export { GAME_DURATION_SEC };
 const GAME_DURATION_SEC = 10;
-
 const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.game__timer');
 const remainingCarrotCounter = document.querySelector('.game__score');
@@ -27,9 +29,6 @@ gameFinishBanner.setClickListener(() => {
 const field = new Field(CARROT_COUNT, BUG_COUNT);
 field.setClickListener(onItemClick);
 function onItemClick(item) {
-  // if(!started) {
-  //   return;
-  // }
   if (item === 'carrot') {
     event.target.remove();
     sound.playCarrot();
@@ -47,6 +46,8 @@ function onItemClick(item) {
   }  
 };
 
+// const game = new Game();
+// game.setClickListener(() => {
 gameBtn.addEventListener('click', () => {
   if(started) {
     stopGame("Replay?");
@@ -58,17 +59,21 @@ gameBtn.addEventListener('click', () => {
 
 function startGame() {
   sound.playBackground();
+  // game.initGame();
   initGame();
   field.init();
   gameFinishBanner.hide();
   showStopButton();
   showTimerAndScore();
+  // this.showStopButton();
+  // this.showTimerAndScore();
   startGameTimer();
 }
 
 function stopGame(message) {
   sound.stopBackground();
   hideGameButton();
+  // game.hideGameButton();
   stopGameTimer();
   gameFinishBanner.showWithMessage(message);
 }
@@ -125,6 +130,8 @@ function updateTimerText(sec) {
   const minutes = Math.floor(sec / 60);
   const seconds = sec % 60;
   gameTimer.innerText = `${minutes}:${seconds}`;
+  // const timer = game.gameTimer;
+  // timer.innerText = `${minutes}:${seconds}`;
 }
 
 function updateRemainingCarrotCount() {
