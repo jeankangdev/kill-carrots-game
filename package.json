@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/yunakang/kill-carrots-game/issues"
   },
-  "homepage": "https://github.com/yunakang/kill-carrots-game#readme"
+  "homepage": "https://github.com/yunakang/kill-carrots-game#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
