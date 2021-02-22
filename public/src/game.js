@@ -1,47 +1,136 @@
-// 'use strict';
+import Field from './field.js';
+import * as sound from './sound.js';
+import PopUp from './popup.js';
 
-// import { CARROT_COUNT } from './main';
+let started = false;
 
-// export default class Game {
-//   constructor() {
-//     this.gameBtn = document.querySelector('.game__button');
-//     this.gameTimer = document.querySelector('.game__timer');
-//     this.remainingCarrotCounter = document.querySelector('.game__score');
-//     this.remainingCarrotCount;
+export default class Game {
+  constructor(gameDuration, carrotCount, bugCount) {
+    this.gameDuration = gameDuration;
+    this.carrotCount = carrotCount;
+    this.bugCount = bugCount;
 
-//     this.gameBtn.addEventListener('click', this.onClick);
-//   }
+    this.gameTimer = document.querySelector('.game__timer');
+    this.remainingCarrotCounter = document.querySelector('.game__score');
+    this.gameBtn = document.querySelector('.game__button');
+    this.gameBtn.addEventListener('click', () => {
+      if(started) {
+        this.stopGame("Replay?");
+      } else {
+        this.startGame();
+      }
+      started = !started;
+    });
 
-//   setClickListener(onClick) {
-//     this.onClick = onClick;
-//   }
+    this.field = new Field(carrotCount, bugCount);
+    this.field.setClickListener(this.onItemClick);
+
+    this.gameFinishBanner = new PopUp();
+    this.gameFinishBanner.setClickListener(() => {
+      this.startGame();
+      started = !started;
+    })
+
+    // this.started = false;
+    this.timer = undefined;
+    this.remainingCarrotCount;
+  }
+
+  onItemClick = (event, item) => {
+    if (!started) {
+      return;
+    }
+    if (item === 'carrot') {
+      event.target.remove();
+      sound.playCarrot();
+      this.updateRemainingCarrotCount();
+      if (this.remainingCarrotCount <= 0) {
+        sound.playWin();
+        this.stopGame("You won!");
+        started = !started;
+      }
+    } else if (item === 'bug') {
+      sound.playBug();
+      sound.playAlert();
+      this.stopGame("You failed!");
+      started = !started; 
+    }  
+  } 
+
+  hideGameButton() {
+    this.gameBtn.style.visibility = 'hidden';
+    this.gameBtn.querySelector('.fa-stop').style.visibility = 'hidden';
+  }  
   
-//   initGame() {
-//     this.remainingCarrotCount = CARROT_COUNT;
-//     this.remainingCarrotCounter.innerText = this.remainingCarrotCount;  
-//   }
+  stopGameTimer() {
+    clearInterval(this.timer);
+  }
 
-//   showStopButton() {
-//     this.gameBtn.style.visibility = 'visible';
-//     const stop = this.gameBtn.querySelector('.fa-stop')
-//     if (stop) {
-//       stop.style.visibility = 'visible';
-//     }
-//     const play = this.gameBtn.querySelector('.fa-play');
-//     if (play) {
-//       play.style.visibility = 'visible';
-//       play.classList.remove('fa-play');
-//       play.classList.add('fa-stop');    
-//     }
-//   }
-  
-//   showTimerAndScore() {
-//     this.gameTimer.style.visibility = 'visible';
-//     this.remainingCarrotCounter.style.visibility = 'visible';
-//   }
-  
-//   hideGameButton() {
-//     this.gameBtn.style.visibility = 'hidden';
-//     this.gameBtn.querySelector('.fa-stop').style.visibility = 'hidden';
-//   }
-// }
+  updateRemainingCarrotCount() {
+    this.remainingCarrotCounter.innerText = --this.remainingCarrotCount;
+  }
+
+  startGame() {
+    sound.playBackground();
+    this.initGame();
+    this.field.init();
+    this.gameFinishBanner.hide();
+    this.showStopButton();
+    this.showTimerAndScore();
+    this.startGameTimer();
+  }
+
+  stopGame(message) {
+    sound.stopBackground();
+    this.hideGameButton();
+    this.stopGameTimer();
+    this.gameFinishBanner.showWithMessage(message);
+  }
+ 
+  initGame() {
+    this.remainingCarrotCount = this.carrotCount;
+    this.remainingCarrotCounter.innerText = this.remainingCarrotCount;  
+  }
+
+  showStopButton() {
+    this.gameBtn.style.visibility = 'visible';
+    const stop = this.gameBtn.querySelector('.fa-stop')
+    if (stop) {
+      stop.style.visibility = 'visible';
+    }
+    const play = this.gameBtn.querySelector('.fa-play');
+    if (play) {
+      play.style.visibility = 'visible';
+      play.classList.remove('fa-play');
+      play.classList.add('fa-stop');    
+    }
+  }  
+
+  showTimerAndScore() {
+    this.gameTimer.style.visibility = 'visible';
+    this.remainingCarrotCounter.style.visibility = 'visible';
+  }
+
+  startGameTimer() {
+    let remainingTimeSec = this.gameDuration;
+    this.updateTimerText(remainingTimeSec);
+    this.timer = setInterval(() => {
+      if (remainingTimeSec == 0) {
+        clearInterval(this.timer);
+        this.stopGame("Game over!");
+        sound.playAlert();
+        console.log("started :"+started)
+        started = !started;
+        console.log("started :"+started)
+        return;
+      }
+      this.updateTimerText(--remainingTimeSec);
+    }, 1000);
+  }  
+
+  updateTimerText(sec) {
+    const minutes = Math.floor(sec / 60);
+    const seconds = sec % 60;
+    this.gameTimer.innerText = `${minutes}:${seconds}`;
+  }  
+}

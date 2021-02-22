@@ -1,7 +1,5 @@
 'use strict';
 
-import { started } from './main.js';
-
 export default class Field {
   constructor(carrotCount, bugCount) {
     this.carrotCount = carrotCount;
@@ -10,10 +8,10 @@ export default class Field {
 
     this.field = document.querySelector('.game__field');
     this.fieldRect = this.field.getBoundingClientRect();
-    
+
     // when functions (inside class) are used as callback, the function itself can't deliver information of the class.
     // thus we need binding (bind the info of the class to the classes function)
-    
+
     this.field.addEventListener('click', this.onClick);
     // option 1: doesn't work well
     // this.onClick = this.onClick.bind(this);
@@ -50,21 +48,22 @@ export default class Field {
       item.style.top = `${y}px`;
       this.field.appendChild(item);
     }
-  }  
+  }
 
   setClickListener(onItemClick) {
     this.onItemClick = onItemClick;
   }
 
   onClick = (event) => {
-    if (!started) {
-      return;
-    }
+    // if (!game.started) {
+    //   return;
+    // }
     if (event.target.matches('.carrot')) {
-      this.onItemClick && this.onItemClick('carrot');
+      // event.target.remove();
+      this.onItemClick && this.onItemClick( event, 'carrot');
       } else if (event.target.matches('.bug')) {
-      this.onItemClick && this.onItemClick('bug');
-    }  
+      this.onItemClick && this.onItemClick( event, 'bug');
+    }
   }
 }
 

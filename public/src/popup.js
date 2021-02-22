@@ -7,12 +7,12 @@ export default class PopUp {
     this.popUpMessage = document.querySelector('.pop-up__message');
 
     this.popUpRefreshBtn.addEventListener('click', () => {
-      this.onClick && this.onClick(); // if (this.onClick) { this.onClick(); }
+      this.onClick && this.onClick();
     });
   }
 
   setClickListener(onClick) {
-    this.onClick = onClick; // PopUP.onClick = onClick callback function
+    this.onClick = onClick; 
   }
 
   showWithMessage(message) {
