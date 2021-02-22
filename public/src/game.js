@@ -2,8 +2,6 @@ import Field from './field.js';
 import * as sound from './sound.js';
 import PopUp from './popup.js';
 
-let started = false;
-
 export default class Game {
   constructor(gameDuration, carrotCount, bugCount) {
     this.gameDuration = gameDuration;
@@ -14,12 +12,12 @@ export default class Game {
     this.remainingCarrotCounter = document.querySelector('.game__score');
     this.gameBtn = document.querySelector('.game__button');
     this.gameBtn.addEventListener('click', () => {
-      if(started) {
+      if(this.started) {
         this.stopGame("Replay?");
       } else {
         this.startGame();
       }
-      started = !started;
+      this.changeStarted();
     });
 
     this.field = new Field(carrotCount, bugCount);
@@ -28,32 +26,32 @@ export default class Game {
     this.gameFinishBanner = new PopUp();
     this.gameFinishBanner.setClickListener(() => {
       this.startGame();
-      started = !started;
+      this.changeStarted();
     })
 
-    // this.started = false;
+    this.started = false;
     this.timer = undefined;
     this.remainingCarrotCount;
   }
 
   onItemClick = (event, item) => {
-    if (!started) {
-      return;
-    }
+    // if (!started) {
+    //   return;
+    // }
     if (item === 'carrot') {
-      event.target.remove();
+      // event.target.remove();
       sound.playCarrot();
       this.updateRemainingCarrotCount();
       if (this.remainingCarrotCount <= 0) {
         sound.playWin();
         this.stopGame("You won!");
-        started = !started;
+        this.changeStarted();
       }
     } else if (item === 'bug') {
       sound.playBug();
       sound.playAlert();
       this.stopGame("You failed!");
-      started = !started; 
+      this.changeStarted();
     }  
   } 
 
@@ -119,9 +117,7 @@ export default class Game {
         clearInterval(this.timer);
         this.stopGame("Game over!");
         sound.playAlert();
-        console.log("started :"+started)
-        started = !started;
-        console.log("started :"+started)
+        this.changeStarted();
         return;
       }
       this.updateTimerText(--remainingTimeSec);
@@ -133,4 +129,9 @@ export default class Game {
     const seconds = sec % 60;
     this.gameTimer.innerText = `${minutes}:${seconds}`;
   }  
+
+  changeStarted() {
+    this.started = !this.started;
+    this.field.setStarted(this.started);
+  }
 }

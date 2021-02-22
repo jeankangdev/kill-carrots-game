@@ -2,6 +2,7 @@
 
 export default class Field {
   constructor(carrotCount, bugCount) {
+    this.started;
     this.carrotCount = carrotCount;
     this.bugCount = bugCount;
     this.imageSize = 80;
@@ -54,12 +55,16 @@ export default class Field {
     this.onItemClick = onItemClick;
   }
 
+  setStarted(started) {
+    this.started = started;
+  }
+
   onClick = (event) => {
-    // if (!game.started) {
-    //   return;
-    // }
+    if (!this.started) {
+      return;
+    }
     if (event.target.matches('.carrot')) {
-      // event.target.remove();
+      event.target.remove();
       this.onItemClick && this.onItemClick( event, 'carrot');
       } else if (event.target.matches('.bug')) {
       this.onItemClick && this.onItemClick( event, 'bug');
