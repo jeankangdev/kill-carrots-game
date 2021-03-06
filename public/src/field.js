@@ -2,10 +2,10 @@
 
 export const ItemType = Object.freeze({
   carrot: 'carrot',
-  bug: bug,
+  bug: 'bug',
 });
 
-export default class Field {
+export class Field {
   constructor(carrotCount, bugCount) {
     this.started;
     this.carrotCount = carrotCount;
@@ -33,8 +33,8 @@ export default class Field {
 
   init() {
     this.field.innerHTML = '';
-    this._addItem('carrot', this.carrotCount, 'img/carrot.png');
-    this._addItem('bug', this.bugCount, 'img/bug.png');
+    this._addItem(ItemType.carrot, this.carrotCount, 'img/carrot.png');
+    this._addItem(ItemType.bug, this.bugCount, 'img/bug.png');
   }
 
   _addItem(className, count, imgPath) {
@@ -71,7 +71,7 @@ export default class Field {
     if (event.target.matches('.carrot')) {
       event.target.remove();
       this.onItemClick && this.onItemClick( event, ItemType.carrot);
-      } else if (event.target.matches(ItemType.bug)) {
+      } else if (event.target.matches('.bug')) {
       this.onItemClick && this.onItemClick( event, ItemType.bug);
     }
   }

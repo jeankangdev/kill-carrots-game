@@ -1,4 +1,4 @@
-import Field from './field.js';
+import { Field, ItemType } from './field.js';
 import * as sound from './sound.js';
 import PopUp from './popup.js';
 
@@ -61,7 +61,7 @@ class Game {
   }
 
   onItemClick = (event, item) => {
-    if (item === 'carrot') {
+    if (item === ItemType.carrot) {
       sound.playCarrot();
       this.updateRemainingCarrotCount();
       if (this.remainingCarrotCount <= 0) {
@@ -69,7 +69,7 @@ class Game {
         this.stopGame("You won!");
         this.changeStarted();
       }
-    } else if (item === 'bug') {
+    } else if (item === ItemType.bug) {
       sound.playBug();
       sound.playAlert();
       this.stopGame("You failed!");
