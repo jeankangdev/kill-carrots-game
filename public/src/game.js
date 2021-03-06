@@ -4,17 +4,17 @@ import PopUp from './popup.js';
 
 // Builder Pattern
 export default class GameBuilder {
-  gameDuration(duration) {
+  withGameDuration(duration) {
     this.gameDuration = duration;
     return this;
   }  
 
-  carrotCount(num) {
+  withCarrotCount(num) {
     this.carrotCount = num;
     return this;
   }
 
-  bugCount(num) {
+  withBugCount(num) {
     this.bugCount = num;
     return this;
   }
@@ -61,11 +61,7 @@ class Game {
   }
 
   onItemClick = (event, item) => {
-    // if (!started) {
-    //   return;
-    // }
     if (item === 'carrot') {
-      // event.target.remove();
       sound.playCarrot();
       this.updateRemainingCarrotCount();
       if (this.remainingCarrotCount <= 0) {

@@ -3,7 +3,7 @@
 import GameBuilder from './game.js';
 
 const game = new GameBuilder()
-  .gameDuration(10)
-  .carrotCount(10)
-  .bugCount(6)
+  .withGameDuration(10)
+  .withCarrotCount(10)
+  .withBugCount(6)
   .build();

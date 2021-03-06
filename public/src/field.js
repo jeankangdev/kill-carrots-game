@@ -1,5 +1,10 @@
 'use strict';
 
+export const ItemType = Object.freeze({
+  carrot: 'carrot',
+  bug: bug,
+});
+
 export default class Field {
   constructor(carrotCount, bugCount) {
     this.started;
@@ -65,9 +70,9 @@ export default class Field {
     }
     if (event.target.matches('.carrot')) {
       event.target.remove();
-      this.onItemClick && this.onItemClick( event, 'carrot');
-      } else if (event.target.matches('.bug')) {
-      this.onItemClick && this.onItemClick( event, 'bug');
+      this.onItemClick && this.onItemClick( event, ItemType.carrot);
+      } else if (event.target.matches(ItemType.bug)) {
+      this.onItemClick && this.onItemClick( event, ItemType.bug);
     }
   }
 }
