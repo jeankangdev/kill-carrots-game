@@ -48,12 +48,12 @@
     import Field from './field.js';
 
     export default class Game {
-    constructor() {
-    this.started = false;
+      constructor() {
+        this.started = false;
 
-    this.field = new Field();
-    this.field.setClickListener(onItemClick);
-    }
+        this.field = new Field();
+        this.field.setClickListener(onItemClick);
+      }
 
     onItemClick(item) {
       if (item === 'carrot') {
