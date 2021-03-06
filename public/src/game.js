@@ -3,7 +3,7 @@ import * as sound from './sound.js';
 import PopUp from './popup.js';
 
 // Builder Pattern
-export class GameBuilder {
+export default class GameBuilder {
   gameDuration(duration) {
     this.gameDuration = duration;
     return this;

@@ -1,9 +1,9 @@
 'use strict';
 
-import Game from './game.js';
+import GameBuilder from './game.js';
 
-const CARROT_COUNT = 10;
-const GAME_DURATION_SEC = 10;
-const BUG_COUNT = 5;
-
-const game = new Game(GAME_DURATION_SEC, CARROT_COUNT, BUG_COUNT);
+const game = new GameBuilder()
+  .gameDuration(10)
+  .carrotCount(10)
+  .bugCount(6)
+  .build();
