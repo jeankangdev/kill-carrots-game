@@ -77,7 +77,6 @@ export class Field {
   }
 }
 
-// static function
 function randomNumber(min, max) {
   return Math.random() * (max - min) + min;
 }

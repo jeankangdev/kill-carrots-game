@@ -2,7 +2,6 @@ import { Field, ItemType } from './field.js';
 import * as sound from './sound.js';
 import PopUp from './popup.js';
 
-// Builder Pattern
 export default class GameBuilder {
   withGameDuration(duration) {
     this.gameDuration = duration;
