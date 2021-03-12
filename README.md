@@ -1,6 +1,7 @@
 ## 📑 PROJECT
 
-A game to practice Vanilla JavaScript
+A simple game to practice Vanilla JavaScript and CSS  
+You can win the game by pulling all carrots in 10 seconds
 
 ---
 
