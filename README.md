@@ -1,4 +1,49 @@
-// Start
+## 📑 PROJECT
+
+A game to practice Vanilla JavaScript
+
+---
+
+## 📎 PLAN
+
+#### STACK
+
+- Node.js, HTML, CSS, Vanilla JavaScript(ES6)
+
+#### FEATURE
+
+- [x] play, stop, restart game
+
+MAIN SCREEN  
+<img src="./imgs/main.PNG" width=600>
+
+STOP GAME: when stop button is clicked  
+<img src="./imgs/restart.PNG" width=300>
+
+WIN: If all carrots are clicked before the timer expires  
+<img src="./imgs/win.PNG" width=300>
+
+FAIL: If bugs are clicked  
+<img src="./imgs/fail.PNG" width=300>
+
+GAME OVER: When the timer expires  
+<img src="./imgs/gameOver.PNG" width=300>
+
+#### STEP
+
+- [x] make play, stop, restart game button
+- [x] display carrots and bugs on the game field
+- [x] remove carrots / bugs on click
+- [x] play background music
+- [x] set a timer
+- [x] set a bug counter
+- [x] display Win / Lose
+
+---
+
+## 💡 PROBLEM SOLVING HISTORY
+
+#### How to start?
 
 1. create a folder
 
@@ -14,7 +59,7 @@
 
 6. git push origin master --force
 
-// Problem solving
+#### ISSUE
 
 1. clear web cash  
    => Ctrl + F5
@@ -43,38 +88,37 @@
    8-3. in other .js files, declare an empty variable 'started' and make a function that sets its value  
    8-4. now you can use the 'started' variable in multiple files and set its value whenever it changes by calling each file's (class's) setStarted function
 
-// .game.js
+#### game.js
 
-    import Field from './field.js';
+      import Field from './field.js';
 
-    export default class Game {
-      constructor() {
-        this.started = false;
+      export default class Game {
+        constructor() {
+          this.started = false;
 
-        this.field = new Field();
-        this.field.setClickListener(onItemClick);
+          this.field = new Field();
+          this.field.setClickListener(onItemClick);
+        }
+
+      onItemClick(item) {
+        if (item === 'carrot') {
+          updateCount();
+        } else if (item === 'bug') {
+          stopGame();
+        }
       }
 
-    onItemClick(item) {
-      if (item === 'carrot') {
-        updateCount();
-      } else if (item === 'bug') {
-        stopGame();
+      StartGame() {
+        changeStarted();
+      }
+
+      changeStarted() {
+        this.started = !this.started;
+        Field.this.setStarted(this.started);
       }
     }
 
-    StartGame() {
-      changeStarted();
-    }
-
-    changeStarted() {
-      this.started = !this.started;
-      Field.this.setStarted(this.started);
-    }
-
-}
-
-// .field.js
+#### .field.js
 
     export default class Field {
     constructor() {
@@ -107,33 +151,34 @@
       }
     }
 
-// What I have learned from this project
+#### Note
 
-1. background: url(img/background.png) center/cover;
+1.  background: url(img/background.png) center/cover;
 
-2. transition: all 300ms ease-in;
+2.  transition: all 300ms ease-in;
 
-3. pop-up position: transform: translateY(-150%);
+3.  pop-up position: transform: translateY(-150%);
 
-4. background-color: #00000090; => black with 90% opacity  
-   make only the background-color has the opacity (not its children)
+4.  background-color: #00000090; => black with 90% opacity  
+    make only the background-color has the opacity (not its children)
 
-5. make a random number between 2 numbers  
-   function randomNumber(min, max) {  
-    return Math.random() \* (max - min) + min;  
-   }
+5.  make a random number between 2 numbers
 
-   const x1 = 0;  
-    const y1 = 0;  
-    const x2 = fieldRect.width - CARROT_SIZE;  
-    const y2 = fieldRect.height - CARROT_SIZE;  
-    const x = randomNumber(x1, x2);  
-    const y = randomNumber(y1, y2);  
-    item.style.left = `${x}px`;  
-    item.style.top = `${y}px`;
+          function randomNumber(min, max) {
+            return Math.random() \* (max - min) + min;
+          }
 
-6. setInterval for a specific time  
-   let timer;
+          const x1 = 0;
+          const y1 = 0;
+          const x2 = fieldRect.width - CARROT_SIZE;
+          const y2 = fieldRect.height - CARROT_SIZE;
+          const x = randomNumber(x1, x2);
+          const y = randomNumber(y1, y2);
+          item.style.left = `${x}px`;
+          item.style.top = `${y}px`;
 
-7. event.target.className('carrot');  
-   => event.target.matches('.carrot');
+6.  setInterval for a specific time  
+    let timer;
+
+7.  event.target.className('carrot');  
+    => event.target.matches('.carrot');
